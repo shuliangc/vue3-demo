@@ -1,24 +1,20 @@
 <script setup lang="ts">
+import { ref } from 'vue'
 import { RouterLink, RouterView } from 'vue-router'
+const showRoutes = ref(false)
 </script>
 
 <template>
   <div class="h-full flex flex-col">
-    <header class="flex items-center px-4 h-14">
-      <nav class="flex gap-1">
+    <RouterView />
+    <div
+      class="fixed right-4 bottom-4 bg-black rounded-full h-8 w-8 flex items-center justify-center cursor-pointer"
+    >
+      导航
+      <nav class="absolute bottom-8 bg-black flex flex-col gap-2" v-if="showRoutes">
         <RouterLink to="/">Home</RouterLink>
         <RouterLink to="/todo">Todo</RouterLink>
       </nav>
-    </header>
-    <main class="h-full flex">
-      <aside class="w-60 min-h-full bg-white">
-        <header class="flex items-center px-4 h-10">
-          Header
-        </header>
-      </aside>
-      <main class="flex-1 h-full py-4 px-6 bg-gray-100">
-        <RouterView />
-      </main>
-    </main>
+    </div>
   </div>
 </template>

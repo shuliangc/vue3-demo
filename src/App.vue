@@ -7,7 +7,7 @@ const showRoutes = ref(false)
 <template>
   <div class="h-full flex flex-col">
     <RouterView />
-    <div
+    <!-- <div
       class="fixed right-4 bottom-4 bg-black rounded-full h-8 w-8 flex items-center justify-center cursor-pointer"
     >
       导航
@@ -15,6 +15,6 @@ const showRoutes = ref(false)
         <RouterLink to="/">Home</RouterLink>
         <RouterLink to="/todo">Todo</RouterLink>
       </nav>
-    </div>
+    </div> -->
   </div>
 </template>

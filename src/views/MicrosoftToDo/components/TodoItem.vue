@@ -1,33 +1,61 @@
 <template>
-  <div class="flex items-center h-42 rounded py-2 px-4">
-    <input type="checkbox" :value="props.completed" />
-    <span class="flex-1 mx-2" :class="{ 'line-through': props.completed }">
-      <template>
-        {{ props.content }}
+  <div class="flex items-center justify-between gap-2 h-10 rounded py-2 px-4 bg-white">
+    <CustomCheckbox v-model="completed">
+      <template v-slot:true>
+        <font-awesome-icon :icon="['fas', 'fa-circle-check']" color="#6676bf" />
       </template>
+      <template v-slot:false>
+        <font-awesome-icon :icon="['far', 'fa-circle']" color="#767678" />
+      </template>
+    </CustomCheckbox>
+    <span class="flex-1" :class="{ 'line-through': props.completed }">
+      {{ props.content }}
     </span>
-    <span class="text-lg cursor-pointer" @click="emit('on-delete', props.id)">⭐️</span>
+    <CustomCheckbox v-model="stared">
+      <template v-slot:true>
+        <font-awesome-icon :icon="['fas', 'fa-star']" color="#6676bf" />
+      </template>
+      <template v-slot:false>
+        <font-awesome-icon :icon="['far', 'fa-star']" color="#767678" />
+      </template>
+    </CustomCheckbox>
   </div>
 </template>
 
 <script setup lang="ts">
-export interface TodoItem {
+export interface ITodoItem {
   id: string
   content: string
   completed: boolean
   stared: boolean
 }
-const props = withDefaults(defineProps<TodoItem>(), {
+import { computed } from 'vue'
+import CustomCheckbox from '@/components/CustomCheckbox.vue'
+const props = withDefaults(defineProps<ITodoItem>(), {
   id: '',
   content: '',
   completed: false,
-  stared: false
+  stared: true
 })
-
 const emit = defineEmits<{
-  (e: 'on-delete', id: string): void
-  (e: 'on-complete', id: string): void
+  (e: 'update:completed', completed: boolean): void
+  (e: 'update:stared', stared: boolean): void
 }>()
-</script>
 
-<style scoped></style>
+const completed = computed({
+  get() {
+    return props.completed
+  },
+  set(value) {
+    emit('update:completed', value)
+  }
+})
+const stared = computed({
+  get() {
+    return props.stared
+  },
+  set(value) {
+    emit('update:stared', value)
+  }
+})
+</script>
